@@ -25,7 +25,7 @@ This mini-scraper can be extended in various ways:
 ##How to Run
 requires python 3
 
-Install tkinter 
+Install tkinter (if not installed already)
 
 http://www.tkdocs.com/tutorial/install.html 
 
