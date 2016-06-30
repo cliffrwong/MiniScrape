@@ -27,7 +27,7 @@ requires python 3
 
 Install tkinter 
 
-Mac: https://www.lynda.com/Tkinter-tutorials/Installing-Python-3-TclTk-Mac/163607/184090-4.html
+Mac: https://www.python.org/download/mac/tcltk/
 
 Linux: http://tkinter.unpythonic.net/wiki/How_to_install_Tkinter
 
