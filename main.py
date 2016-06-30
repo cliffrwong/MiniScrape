@@ -17,14 +17,14 @@ class AddMovieGUI:
 	
 	def __init__(self, master, queue, endCommand):
 		""" initializes the GUI and binds the logic to the GUI elements
-		
+
 		Parameters
-    	----------
-    	master : the root Tk instance
-    	queue : queue 
-    		The queue that contain tasks for the GUI to update.
-    	endCommand : function
-    		call them to end the main thread calliing periodicCall
+    ----------
+    master : the root Tk instance
+    queue : queue 
+    	The queue that contain tasks for the GUI to update.
+    endCommand : function
+    	call them to end the main thread calliing periodicCall
 
 		"""
 		self.queue = queue
@@ -206,7 +206,7 @@ class AddMovieGUI:
 		movieDict = self.movieList[self.curMovie]
 		
 		# Take image URL and store image in imgData. Then set it in imgPanel
-		if movieDict['imageURL'] != "":
+		if 'imageURL' in movieDict and movieDict['imageURL'] != "":
 			with urllib.request.urlopen("http://ia.media-imdb.com/images/M/{0}._V1_\
 				SY150_CR3,0,101,150_AL_.jpg".format(movieDict['imageURL'])) as fd:
 				imgData = BytesIO(fd.read())

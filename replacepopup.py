@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-from tkinter import Button
 import tkinter
 from addmovie_gui_util import center, clearApp
 from addmovie_util import insert2DB
@@ -46,7 +45,7 @@ class ReplaceMoviePopUp:
 		self.label1.pack()
 		
 		# Yes Button
-		self.yesButton = Button(self.top, text="YES", width=20)
+		self.yesButton = tkinter.Button(self.top, text="YES", width=20)
 		self.yesButton.bind("<Return>", self.replaceMovYes)
 		self.yesButton.pack(side='top',padx=0,pady=0)
 		self.searchTextBox.bind("<Down>", self.focus_next_window)

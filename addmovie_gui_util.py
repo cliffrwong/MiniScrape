@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-from tkinter import END
 from PIL import Image, ImageTk   
 import tkinter
 
@@ -30,7 +29,7 @@ def clearApp(addMovGUI):
     addMovieGUI : the instance of AddMovieGUI
 
     """
-    addMovGUI.movieListBox.delete(0,END)
+    addMovGUI.movieListBox.delete(0,tkinter.END)
     addMovGUI.searchTextBox.focus_set()
     clearImg(addMovGUI)
 
@@ -42,7 +41,7 @@ def clearImg(addMovGUI):
     addMovieGUI : the instance of AddMovieGUI
 
     """
-    pil_image = Image.open("default.jpg")
+    pil_image = Image.open("img/default.png")
     img2 = ImageTk.PhotoImage(pil_image)
     addMovGUI.imgPanel.config(image = img2)
     addMovGUI.imgPanel.image = img2
