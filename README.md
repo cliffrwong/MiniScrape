@@ -4,7 +4,7 @@
 
 IMDB & Amazon ASIN mini-scraper
 
-This python desktop applicaton allows the user to search a movie title, select the correct one from a list, and the application then extracts the IMDB ID, IMDB image URL, Amazon Standard Identification Numbers (ASINs), title, release year, etc. for the movie.
+This python TkInter applicaton allows the user to search a movie title, select the correct movie from a list, and the application then extracts the IMDB ID, IMDB image URL, Amazon Standard Identification Numbers (ASINs), title, release year, etc. for the movie.
 
 Type the movie name into the search box in the top, movie results will appear in the listbox below. The selected movie's poster will appear below that to help differentiate movie's with similar names. Hit enter or double click the selected movie name. The movie's information will be printed in stdout. 	
 
