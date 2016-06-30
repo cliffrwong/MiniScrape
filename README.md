@@ -6,7 +6,7 @@ IMDB & Amazon ASIN mini-scraper
 
 This python desktop applicaton allows the user to search a movie title, select the correct one from a list, and the application then extracts the IMDB ID, IMDB image URL, Amazon Standard Identification Numbers (ASINs), title, release year, etc. for the movie.
 
-Type the movie name into the search box in the top, movie results will appear in the listbox below. The selected movie's poster will appear below that to help differentiate movie's with similar names. Hit enter or double click the selected movie name. The movie's information will be printed in stdout. 
+Type the movie name into the search box in the top, movie results will appear in the listbox below. The selected movie's poster will appear below that to help differentiate movie's with similar names. Hit enter or double click the selected movie name. The movie's information will be printed in stdout. 	
 
 This version only prints out the movie's information into stdout. But you can modify insert2DB() in addmovie_util.py to save the information where you please such as your DB. You can also modify the function alreadyExist() in addmovie_util.py to check if the movie is already in your DB.
 
@@ -25,8 +25,6 @@ Mac: https://www.lynda.com/Tkinter-tutorials/Installing-Python-3-TclTk-Mac/16360
 
 Linux: http://tkinter.unpythonic.net/wiki/How_to_install_Tkinter
 
-Note: I had issues when following install direction for python2
-
 pip install Pillow
 
 Note: install tcl/tk before installing Pillow
@@ -34,7 +32,9 @@ Note: install tcl/tk before installing Pillow
 pip install beautifulsoup4
 
 git clone https://github.com/cliffrwong/MiniScrape.git
+
 cd MiniScrape
+
 python3 main.py
 
 
