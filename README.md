@@ -8,8 +8,6 @@ This python desktop applicaton allows the user to search a movie title, select t
 
 Type the movie name into the search box in the top, movie results will appear in the listbox below. The selected movie's poster will appear below that to help differentiate movie's with similar names. Hit enter or double click the selected movie name. The movie's information will be printed in stdout. 
 
-![alt tag](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png)
-
 This version only prints out the movie's information into stdout. But you can modify insert2DB() in addmovie_util.py to save the information where you please such as your DB. You can also modify the function alreadyExist() in addmovie_util.py to check if the movie is already in your DB.
 
 This mini-scraper can be extended in various ways:
