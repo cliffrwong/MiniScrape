@@ -22,8 +22,8 @@ This mini-scraper can be extended in various ways:
 3. when your scraping algorithm is uncertain about which choice to make, the UI allows the user to intervene and manually make a choice while having all the relevant information available. 
 
 
-##Requirements:
-python 3
+##How to Run
+requires python 3
 
 Install tkinter 
 
