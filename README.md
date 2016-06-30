@@ -11,7 +11,7 @@ Type the movie name into the search box in the top, movie results will appear in
 This version only prints out the movie's information into stdout. But you can modify insert2DB() in addmovie_util.py to direct the data where you please, such as saving in your DB. You can also modify the function alreadyExist() in addmovie_util.py to check if the movie is already in your DB.
 
 ### Screenshot
-![alt tag](https://raw.githubusercontent.com/cliffrwong/MiniScrape/master/default.jpg)
+![alt tag](https://raw.githubusercontent.com/cliffrwong/MiniScrape/master/img/screenshot.png)
 
 This mini-scraper can be extended in various ways:
 
