@@ -19,7 +19,8 @@ def removeDuplicates(seq):
     return [x for x in seq if not (x in seen or seen_add(x))]
 
 def imdbBingSearch(query):
-    """ Search query on Bing only for sites on imdb. Return list of imdb IDs
+    """ Search query string on Bing. Only get results from the imdb domain name.
+    Return list of imdb IDs
 
     Parameters
     ----------
