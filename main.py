@@ -19,13 +19,12 @@ class AddMovieGUI:
 		""" initializes the GUI and binds the logic to the GUI elements
 
 		Parameters
-    ----------
-    master : the root Tk instance
-    queue : queue 
-    	The queue that contain tasks for the GUI to update.
-    endCommand : function
-    	call them to end the main thread calliing periodicCall
-
+		----------
+		master : the root Tk instance
+		queue : queue 
+			The queue that contain tasks for the GUI to update.
+		endCommand : function
+			call them to end the main thread calliing periodicCall
 		"""
 		self.queue = queue
 		self.master = master
