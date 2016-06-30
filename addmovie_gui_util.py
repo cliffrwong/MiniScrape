@@ -43,5 +43,5 @@ def clearImg(addMovGUI):
     """
     pil_image = Image.open("img/default.png")
     img2 = ImageTk.PhotoImage(pil_image)
-    addMovGUI.imgPanel.config(image = img2)
+    addMovGUI.imgPanel.config(image=img2)
     addMovGUI.imgPanel.image = img2

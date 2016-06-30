@@ -32,7 +32,7 @@ class AddMovieGUI:
 		master.wm_title("IMDB & Amazon Scraper")
 		master.protocol("WM_DELETE_WINDOW", self._quit)
 
-        # Set up the GUI
+		# Set up the GUI
 		window_width = 60
 		master.bind('<Control-q>', self._quit)
 		
@@ -217,12 +217,12 @@ class AddMovieGUI:
 			clearImg(self)
 		return("break")
 
+
+class ThreadedClient:
 """
 Launch the main part of the GUI and the worker thread. 
 
 """ 
-class ThreadedClient:
-
     def __init__(self, master):
         """ Start the GUI and the asynchronous threads. We are in the main
         (original) thread of the application, which will later be used by
