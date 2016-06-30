@@ -27,9 +27,7 @@ requires python 3
 
 Install tkinter 
 
-Mac: https://www.python.org/download/mac/tcltk/
-
-Linux: http://tkinter.unpythonic.net/wiki/How_to_install_Tkinter
+http://www.tkdocs.com/tutorial/install.html 
 
 pip install Pillow
 
