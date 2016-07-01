@@ -5,6 +5,8 @@ import os
 import time
 import string
 import urllib
+import urllib.parse
+import urllib.request
 import re
 
 # from unidecode import unidecode
@@ -137,8 +139,7 @@ def fancyIMDBpages(imdbDict, soup):
         imdbDict["year"] = header.find('a').get_text().strip()
     except (AttributeError, TypeError) as e:
         # The year is not available, this is probably a TV show so ignore this.
-        print("Could not get imdb year for {0}, {1}"
-              .format(imdbDict['title'], e))
+        print("Could not get year for {0}, {1}".format(imdbDict['title'], e))
         imdbDict["year"] = '0000'
 
     # Extract the movie's "type". This is usually the movie's rating.
@@ -148,8 +149,7 @@ def fancyIMDBpages(imdbDict, soup):
         movTyp = infobar.find('meta', {'itemprop': 'contentRating'})['content']
         imdbDict["type"] = movTyp
     except (AttributeError, TypeError) as e:
-        print("Could not get imdb type for {0}, {1}"
-              .format(imdbDict['title'], e))
+        print("Could not get type for {0}, {1}".format(imdbDict['title'], e))
         imdbDict["type"] = 'NA'
     return imdbDict
 
@@ -188,8 +188,7 @@ def bsIMDB(imdbID):
         titleStr = re.sub('\([^\(\)]+\)', '', titleStr)
         imdbDict['title'] = titleStr.strip()
     except (AttributeError, TypeError) as e:
-        print("Could not get imdb title, {0}"
-              .format(e))
+        print("Could not get imdb title, {0}".format(e))
         imdbDict['title'] = ""
 
     # The above extraction may not work for some promotional movies with
@@ -202,8 +201,7 @@ def bsIMDB(imdbID):
         year = result2.find('a').get_text()
         imdbDict["year"] = year.strip()
     except (AttributeError, TypeError) as e:
-        print("Could not get imdb year for {0}, {1}"
-              .format(imdbDict['title'], e))
+        print("Could not get year for {0}, {1}".format(imdbDict['title'], e))
         imdbDict["year"] = '0000'
 
     # Get the movie type/content rating.
@@ -211,6 +209,7 @@ def bsIMDB(imdbID):
         movType = result.find('meta', {'itemprop': 'contentRating'})['content']
         imdbDict["type"] = movType
     except (AttributeError, TypeError) as e:
+        print("Could not get type for {0}, {1}".format(imdbDict['title'], e))
         imdbDict["type"] = 'NA'
 
     # Get imageURL
@@ -222,7 +221,7 @@ def bsIMDB(imdbID):
         m = re.search(imageURL_begin + "(.*)" + imageURL_end, imdbImageStr)
         imdbDict["imageURL"] = m.group(1)
     except (AttributeError, TypeError) as e:
-        print("Could not get imdb image for {0}, {1}"
+        print("Could not get IMDB image for {0}, {1}"
               .format(imdbDict['title'], e))
         imdbDict["imageURL"] = ""
 
