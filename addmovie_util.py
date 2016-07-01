@@ -60,7 +60,6 @@ def getContent(url):
     -------
     resp : HTTPResponse object
 
-
     """
     req = urllib.request.Request(url)
     req.add_header('User-Agent', "'Mozilla/5.0 (Windows NT 6.1; WOW64)")
@@ -117,7 +116,6 @@ def fancyIMDBpages(imdbDict, soup):
         contains info about this movie that we got from the imdb page.
     
     """
-
     # Extract the movie title
     try:
         header = soup.find("h1", {"class":"header"})
