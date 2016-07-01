@@ -3,23 +3,25 @@ from io import BytesIO
 import urllib.request
 from threading import Timer, Thread
 
-from tkinter import Tk, Text, Listbox, Label, Entry, NORMAL, END, DISABLED, SEL, INSERT, DISABLED
+from tkinter import Tk, Text, Listbox, Label, Entry, NORMAL, END, DISABLED, \
+    SEL, INSERT, DISABLED
 from PIL import Image, ImageTk
 
-from addmovie_util import alreadyExist, imdbBingSearch, bsIMDB, insert2DB, getContent
+from addmovie_util import alreadyExist, imdbBingSearch, bsIMDB, insert2DB, \
+    getContent
 from addmovie_gui_util import center, clearApp, clearImg
 from replacepopup import ReplaceMoviePopUp
 
 
 class AddMovieGUI:
-    
+
     def __init__(self, master, queue, endCommand):
         """ initializes the GUI and binds the logic to the GUI elements
 
         Parameters
         ----------
         master : the root Tk instance
-        queue : queue 
+        queue : queue
             The queue that contain tasks for the GUI to update.
         endCommand : function
             call them to end the main thread calliing periodicCall
@@ -33,7 +35,7 @@ class AddMovieGUI:
         # Set up the GUI
         window_width = 60
         master.bind('<Control-q>', self._quit)
-        
+
         # Search TextBox
         self.searchTextBox = Text(master, height=1, width=window_width//2)
         self.searchTextBox.bind('<Return>', self.searchPressedEvent)
@@ -41,25 +43,25 @@ class AddMovieGUI:
         self.searchTextBox.pack(pady=5, padx=window_width)
         self.searchTextBox.focus_set()
         self.searchTextBox.bind("<Tab>", self.focus_next_list_window)
-        
+
         # Movie Results List
-        self.movieListBox = Listbox(master, width = window_width)       
-        self.movieListBox.pack(pady=5, padx = window_width)            
+        self.movieListBox = Listbox(master, width=window_width)
+        self.movieListBox.pack(pady=5, padx=window_width)
         self.movieListBox.bind("<Return>", self.submitPressedEvent)
         self.movieListBox.bind("<Double-Button-1>", self.submitPressedEvent)
         self.movieListBox.bind("<Tab>", self.focus_next_window)
         self.movieListBox.bind('<<ListboxSelect>>', self.movieListChanged)
-        
+
         # Movie Poster Image
         self.imgPanel = Label(master)
         clearImg(self)
         self.imgPanel.pack()
-        
+
         # Status TextBox
         self.statusTextBox = Entry(master, width=window_width)
         self.statusTextBox.pack(pady=5, padx=window_width)
         self.insertStatusText("")
-        
+
         # Center the window in the middle of the screen
         center(master)
 
@@ -80,7 +82,6 @@ class AddMovieGUI:
                 # expect this branch to be taken in this case
                 pass
 
-    
     def select_all(self, event):
         """ Select all text in SearchTextBox. Bound to Ctrl-a
 
@@ -91,23 +92,23 @@ class AddMovieGUI:
         return('break')
 
     def searchPressedEvent(self, event):
-        """ Function called after user searched a movie name. 
+        """ Function called after user searched a movie name.
         Initiate search to bing and update movieDict and movie poster
-    
+
         """
         # Disable searchTextBox so users can't input another query
         # while a query is already running
         self.searchTextBox.config(state=DISABLED)
-        query = self.searchTextBox.get("1.0",END)
+        query = self.searchTextBox.get("1.0", END)
         self.insertStatusText("Searching movie: " + query)
         clearApp(self)
         # Start thread to search movie name.
         Thread(target=self.searchPressed, args=(query,)).start()
         return("break")
-    
+
     def searchPressed(self, query):
         """ Queries movie name and stores returned imdb ID's in self.movieList
-        
+
         Parameters
         ----------
         query : the query string
@@ -123,8 +124,8 @@ class AddMovieGUI:
                 self.movieList.append(imdbDict)
         # Put message into queue to update GUI with new movie list.
         msg = "movie searched"
-        self.queue.put(msg) 
-        
+        self.queue.put(msg)
+
     def searchPressed2(self):
         """ Update GUI after getting the movieList.
         Put movie string (title, year, type) into movieListBox
@@ -135,48 +136,49 @@ class AddMovieGUI:
         """
         # Insert movies found from bing into movieListBox
         for movie in self.movieList:
-            self.movieListBox.insert(END,"{title} {year} {type}".format(**movie))
+            self.movieListBox.insert(END, "{title} {year} {type}"
+                                     .format(**movie))
         self.insertStatusText("")
         # Update movieListBox focus and movie image
         self.movieListBox.select_set(0)
         self.movieListBox.focus()
         self.movieListChanged(None)
         self.searchTextBox.config(state=NORMAL)
-        
+
     def submitPressedEvent(self, event):
         """ User chooses a movie from movieListBox.
 
         """
         if self.movieListBox.size() == 0:
             return
-        
+
         # Get selected movie in movieListBox
         selection = self.movieListBox.curselection()[0]
         self.movieDict = self.movieList[selection]
-        
+
         # Form another query. Not used here. But this is used for further
         # web scraping on other sites (not shown).
         self.movieDict['queryStr'] = "{title} {year}".format(**self.movieDict)
-        
+
         # Check if selected movie is already in DB. if not, then insert it
-        # Else, open the ReplaceMoviePopUp box and ask user to replace it or not
+        # Else, open ReplaceMoviePopUp and ask user to replace it or not
         if(alreadyExist(self.movieDict)):
             self.insertStatusText("Movie already in database")
             self.moviePopUp = ReplaceMoviePopUp(self, self.master)
-        else:   
+        else:
             insert2DB(self.movieDict)
         return("break")
 
     def insertStatusText(self, text):
         """ Insert text in the bottom status bar to inform user.
-        
+
         """
         self.statusTextBox.config(state=NORMAL)
         self.statusTextBox.delete(0, END)
         self.statusTextBox.insert(END, text)
         self.statusTextBox.config(state=DISABLED)
-        
-    def _quit(self, event = None):
+
+    def _quit(self, event=None):
         self.endCommand()
         self.master.destroy()
         return("break")
@@ -190,18 +192,17 @@ class AddMovieGUI:
         event.widget.tk_focusNext().select_set(0)
         return("break")
 
-    
     def movieListChanged(self, event):
-        """ Update image when movieList selection changes. 
+        """ Update image when movieList selection changes.
         In the original version, this instigates more events downstream.
-        """ 
+        """
         if self.movieListBox.size() == 0:
             return
-        
+
         # store the current selection in curMovie for subsequent processing
-        self.curMovie = self.movieListBox.curselection()[0]     
+        self.curMovie = self.movieListBox.curselection()[0]
         movieDict = self.movieList[self.curMovie]
-        
+
         # Take image URL and store image in imgData. Then set it in imgPanel
         gotImage = False
         if 'imageURL' in movieDict and movieDict['imageURL'] != "":
@@ -222,16 +223,15 @@ class AddMovieGUI:
         return("break")
 
 
-"""
-Launch the main part of the GUI and the worker thread.
-
-"""
 class ThreadedClient:
+    """ Launch the main part of the GUI and the worker thread.
+
+    """
 
     def __init__(self, master):
         """ Start the GUI and the asynchronous threads. We are in the main
         (original) thread of the application, which will later be used by
-        the GUI as well. 
+        the GUI as well.
 
         Parameters
         ----------
@@ -270,5 +270,3 @@ if __name__ == "__main__":
     root = Tk()
     client = ThreadedClient(root)
     root.mainloop()
-
-
