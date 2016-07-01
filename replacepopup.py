@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 *
+
 import tkinter
 from addmovie_gui_util import center, clearApp
 from addmovie_util import insert2DB
