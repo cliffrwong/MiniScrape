@@ -42,7 +42,12 @@ def imdbBingSearch(query):
     try:
         url = urllib.request.urlopen(req)
     except urllib.error.URLError as e:
-        print(e.reason)
+        if hasattr(e, 'reason'):
+            print('We failed to reach a server.')
+            print('Reason: ', e.reason)
+        elif hasattr(e, 'code'):
+            print('The server couldn\'t fulfill the request.')
+            print('Error code: ', e.code)
         return None
     content = url.read()
     sitesearch = sitelink_begin + '([0-9]+)/\" h'
@@ -73,8 +78,13 @@ def getAmazonURL(link):
     try:
         res = urllib.request.urlopen(req)
     except urllib.error.URLError as e:
-        print(e.reason)
-        return None
+        if hasattr(e, 'reason'):
+            print('We failed to reach a server.')
+            print('Reason: ', e.reason)
+        elif hasattr(e, 'code'):
+            print('The server couldn\'t fulfill the request.')
+            print('Error code: ', e.code)
+        return ""
     finalurl = res.geturl()
     return finalurl
 
@@ -153,7 +163,12 @@ def bsIMDB(imdbID):
     try:
         url = urllib.request.urlopen(req)
     except urllib.error.URLError as e:
-        print(e.reason)
+        if hasattr(e, 'reason'):
+            print('We failed to reach a server.')
+            print('Reason: ', e.reason)
+        elif hasattr(e, 'code'):
+            print('The server couldn\'t fulfill the request.')
+            print('Error code: ', e.code)
         return None
     content = url.read()
     # Create beautiful soup object from imdb page's content

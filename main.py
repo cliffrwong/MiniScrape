@@ -204,8 +204,8 @@ class AddMovieGUI:
         
         # Take image URL and store image in imgData. Then set it in imgPanel
         if 'imageURL' in movieDict and movieDict['imageURL'] != "":
-            with urllib.request.urlopen("http://ia.media-imdb.com/images/M/{0}._V1_\
-                SY150_CR3,0,101,150_AL_.jpg".format(movieDict['imageURL'])) as fd:
+            with urllib.request.urlopen("http://ia.media-imdb.com/images/M/{0}._V1_"\
+                "SY150_CR3,0,101,150_AL_.jpg".format(movieDict['imageURL'])) as fd:
                 imgData = BytesIO(fd.read())
             pil_image = Image.open(imgData)
             img2 = ImageTk.PhotoImage(image=pil_image)
@@ -216,11 +216,12 @@ class AddMovieGUI:
         return("break")
 
 
-class ThreadedClient:
 """
-Launch the main part of the GUI and the worker thread. 
+Launch the main part of the GUI and the worker thread.
 
-""" 
+"""
+class ThreadedClient:
+
     def __init__(self, master):
         """ Start the GUI and the asynchronous threads. We are in the main
         (original) thread of the application, which will later be used by

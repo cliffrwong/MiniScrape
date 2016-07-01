@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from PIL import Image, ImageTk   
 import tkinter
 
