@@ -39,8 +39,11 @@ def imdbBingSearch(query):
           '={numResults}&pq={query}'.format(query=urltitle, numResults=numResults)
     req = urllib.request.Request(url)
     req = addhttp_header(req)
-    
-    url = urllib.request.urlopen(req)
+    try:
+        url = urllib.request.urlopen(req)
+    except urllib.error.URLError as e:
+        print(e.reason)
+        return None
     content = url.read()
     sitesearch = sitelink_begin + '([0-9]+)/\" h'
     imdbIDs = re.findall(sitesearch, content.decode())
@@ -64,9 +67,14 @@ def getAmazonURL(link):
 
     """
     link = 'http://www.imdb.com' + link
+    
     req = urllib.request.Request(link)
     req = addhttp_header(req)
-    res = urllib.request.urlopen(req)
+    try:
+        res = urllib.request.urlopen(req)
+    except urllib.error.URLError as e:
+        print(e.reason)
+        return None
     finalurl = res.geturl()
     return finalurl
 
@@ -142,7 +150,11 @@ def bsIMDB(imdbID):
     print(url)
     req = urllib.request.Request(url)
     req = addhttp_header(req)
-    url = urllib.request.urlopen(req)
+    try:
+        url = urllib.request.urlopen(req)
+    except urllib.error.URLError as e:
+        print(e.reason)
+        return None
     content = url.read()
     # Create beautiful soup object from imdb page's content
     soup = BeautifulSoup(content, "lxml")
