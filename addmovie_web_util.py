@@ -4,7 +4,6 @@
 import os
 import time
 import string
-import urllib
 import urllib.parse
 import urllib.request
 import re

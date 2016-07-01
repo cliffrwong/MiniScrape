@@ -29,16 +29,11 @@ Install tkinter (if not installed already)
 
 http://www.tkdocs.com/tutorial/install.html 
 
-pip install Pillow
-
-Note: install tcl/tk before installing Pillow
-
-pip install beautifulsoup4
 
 git clone https://github.com/cliffrwong/MiniScrape.git
 
 cd MiniScrape
 
+pip install -r requirements.txt
+
 python main.py
-
-
