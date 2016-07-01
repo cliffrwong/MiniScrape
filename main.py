@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *
+""" Call this method to start the program. 
+
+Start the root Tk instance. Give it to the main worker thread which
+periodically checks the queue for tasks. The worker thread also creates
+AddMovieGUI, which contains the logic for how handle the queue and
+process tasks.
+
+"""
+
 
 import queue
 from tkinter import Tk
@@ -28,29 +37,32 @@ class ThreadedClient:
         self.queue = queue.Queue()
 
         # Set up the GUI part
-        self.gui = AddMovieGUI(master, self.queue, self.endApplication)
+        self.gui = AddMovieGUI(master, self.queue, self.end_app)
 
         # Set up the thread to do asynchronous I/O
         # More threads can also be created and used, if necessary
         self.running = 1
         # Start the periodic call in the GUI to check if the queue contains
         # anything
-        self.periodicCall()
+        self.periodic_call()
 
-    def periodicCall(self):
+    def periodic_call(self):
         """ Check every 200 ms if there is something new in the queue.
-
+        
         """
         self.gui.processIncoming()
         if not self.running:
             import sys
             sys.exit(1)
-        self.master.after(100, self.periodicCall)
+        self.master.after(100, self.periodic_call)
 
-    def endApplication(self):
+    def end_app(self):
+        """ Call this to end the periodicCall and exit applicaton
+
+        """
         self.running = 0
 
 if __name__ == "__main__":
     root = Tk()
-    client = ThreadedClient(root)
+    thr_client = ThreadedClient(root)
     root.mainloop()

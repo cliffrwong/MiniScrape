@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *
+""" Helper methods for web requests and scraping data from pages.
+
+All web requests are processed by getContent. The methods to build the url,
+and get the relevant info from the web pages in IMDB and Bing are all located
+here.
+
+"""
+
 
 import os
 import time
@@ -12,6 +20,35 @@ import re
 from bs4 import BeautifulSoup
 # from werkzeug.urls import url_fix
 # from makedb.globalz import addhttp_header, downloads_path, getsoup, cursor
+
+
+def getContent(url):
+    """ Takes the url and returns the response from urlopen
+    Having a separate function avoids checking for exceptions all
+    throughout the code.
+
+    Parameters
+    ----------
+    url : string
+
+    Returns
+    -------
+    resp : HTTPResponse object
+
+    """
+    req = urllib.request.Request(url)
+    req.add_header('User-Agent', "'Mozilla/5.0 (Windows NT 6.1; WOW64)")
+    try:
+        resp = urllib.request.urlopen(req)
+    except urllib.error.URLError as e:
+        if hasattr(e, 'reason'):
+            print('We failed to reach a server.')
+            print('Reason: ', e.reason)
+        elif hasattr(e, 'code'):
+            print('The server couldn\'t fulfill the request.')
+            print('Error code: ', e.code)
+        return None
+    return resp
 
 
 def removeDuplicates(seq):
@@ -52,35 +89,6 @@ def imdbBingSearch(query):
     else:
         imdbIDs = []
     return imdbIDs
-
-
-def getContent(url):
-    """ Takes the url and returns the response from urlopen
-    Creating a separate function avoids checking for exceptions all
-    through the code.
-
-    Parameters
-    ----------
-    url : string
-
-    Returns
-    -------
-    resp : HTTPResponse object
-
-    """
-    req = urllib.request.Request(url)
-    req.add_header('User-Agent', "'Mozilla/5.0 (Windows NT 6.1; WOW64)")
-    try:
-        resp = urllib.request.urlopen(req)
-    except urllib.error.URLError as e:
-        if hasattr(e, 'reason'):
-            print('We failed to reach a server.')
-            print('Reason: ', e.reason)
-        elif hasattr(e, 'code'):
-            print('The server couldn\'t fulfill the request.')
-            print('Error code: ', e.code)
-        return None
-    return resp
 
 
 def getAmazonURL(link):

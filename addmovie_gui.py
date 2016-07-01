@@ -1,5 +1,31 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *
+""" The GUI and main logic for the program
+
+The AddMovieGUI program's init builds the GUI and binds actions on the
+components to different functions also in the AddMovieGUI class. We also
+included lots of keyboard shortcuts to make usage more efficient. 
+
+AddMovieGUI has a textbox (searchTextBox) for the user to query a movie name.
+Pressing enter starts a thread executing searchPressed(), which retrieves the
+IMDB ID's from Bing and then scrapes data from each of the corresponding IMDB
+pages. The data includes the IMDB image URL, title, year, and (importantly)
+the Amazon ASIN. It stores the data in the instance variable movieList, then
+pushes the string message "movie searched" to the queue. Messages are popped
+from the queue regularly in the processIncoming method by the worker thread
+created in class ThreadedClient. The worker thread reads the message "movie
+searched" and calls searchPressed2() to update the GUI with the new movies
+in the listbox. 
+
+The movie poster for the selected movie will also be displayed in imgPanel.
+The logic for that is in movieListChanged(). If no image is available,
+clearImg() is called to display the default image in the img subdirectory.
+
+When a movie in the listbox is selected, pressing enter or double clicking on
+the movie will print the selected movie's dictonary info in stdout. 
+
+"""
+
 
 import queue
 from io import BytesIO
@@ -17,7 +43,7 @@ from replacepopup import ReplaceMoviePopUp
 
 class AddMovieGUI:
 
-    def __init__(self, master, queue, endCommand):
+    def __init__(self, master, queue, end_app):
         """ initializes the GUI and binds the logic to the GUI elements
 
         Parameters
@@ -25,30 +51,30 @@ class AddMovieGUI:
         master : the root Tk instance
         queue : queue
             The queue that contain tasks for the GUI to update.
-        endCommand : function
+        end_app : function
             call them to end the main thread calliing periodicCall
         """
         self.queue = queue
         self.master = master
-        self.endCommand = endCommand
+        self.end_app = end_app
         master.wm_title("IMDB & Amazon Scraper")
         master.protocol("WM_DELETE_WINDOW", self._quit)
 
         # Set up the GUI
-        window_width = 60
+        WINDOW_WIDTH = 60
         master.bind('<Control-q>', self._quit)
 
         # Search TextBox
-        self.searchTextBox = Text(master, height=1, width=window_width//2)
+        self.searchTextBox = Text(master, height=1, width=WINDOW_WIDTH//2)
         self.searchTextBox.bind('<Return>', self.searchPressedEvent)
         self.searchTextBox.bind("<Control-Key-a>", self.select_all)
-        self.searchTextBox.pack(pady=5, padx=window_width)
+        self.searchTextBox.pack(pady=5, padx=WINDOW_WIDTH)
         self.searchTextBox.focus_set()
         self.searchTextBox.bind("<Tab>", self.focus_next_list_window)
 
         # Movie Results List
-        self.movieListBox = Listbox(master, width=window_width)
-        self.movieListBox.pack(pady=5, padx=window_width)
+        self.movieListBox = Listbox(master, width=WINDOW_WIDTH)
+        self.movieListBox.pack(pady=5, padx=WINDOW_WIDTH)
         self.movieListBox.bind("<Return>", self.submitPressedEvent)
         self.movieListBox.bind("<Double-Button-1>", self.submitPressedEvent)
         self.movieListBox.bind("<Tab>", self.focus_next_window)
@@ -60,8 +86,8 @@ class AddMovieGUI:
         self.imgPanel.pack()
 
         # Status TextBox
-        self.statusTextBox = Entry(master, width=window_width)
-        self.statusTextBox.pack(pady=5, padx=window_width)
+        self.statusTextBox = Entry(master, width=WINDOW_WIDTH)
+        self.statusTextBox.pack(pady=5, padx=WINDOW_WIDTH)
         self.insertStatusText("")
 
         # Center the window in the middle of the screen
@@ -91,7 +117,7 @@ class AddMovieGUI:
         event.widget.tag_add(SEL, "1.0", END)
         event.widget.mark_set(INSERT, "1.0")
         event.widget.see(INSERT)
-        return('break')
+        return 'break'
 
     def searchPressedEvent(self, event):
         """ Function called after user searched a movie name.
@@ -106,7 +132,7 @@ class AddMovieGUI:
         clearApp(self)
         # Start thread to search movie name.
         Thread(target=self.searchPressed, args=(query,)).start()
-        return("break")
+        return "break"
 
     def searchPressed(self, query):
         """ Queries movie name and stores returned imdb ID's in self.movieList
@@ -169,7 +195,7 @@ class AddMovieGUI:
             self.moviePopUp = ReplaceMoviePopUp(self, self.master)
         else:
             insert2DB(self.movieDict)
-        return("break")
+        return "break"
 
     def insertStatusText(self, text):
         """ Insert text in the bottom status bar to inform user.
@@ -181,22 +207,23 @@ class AddMovieGUI:
         self.statusTextBox.config(state=DISABLED)
 
     def _quit(self, event=None):
-        self.endCommand()
+        self.end_app()
         self.master.destroy()
-        return("break")
+        return "break"
 
     def focus_next_window(self, event):
         event.widget.tk_focusNext().focus()
-        return("break")
+        return "break"
 
     def focus_next_list_window(self, event):
         event.widget.tk_focusNext().focus()
         event.widget.tk_focusNext().select_set(0)
-        return("break")
+        return "break"
 
     def movieListChanged(self, event):
         """ Update image when movieList selection changes.
         In the original version, this instigates more events downstream.
+
         """
         if self.movieListBox.size() == 0:
             return
@@ -222,4 +249,4 @@ class AddMovieGUI:
         # If we couldn't load movie image, set default image instead
         if not gotImage:
             clearImg(self)
-        return("break")
+        return "break"

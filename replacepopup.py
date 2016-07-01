@@ -1,5 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *
+""" Class for the popup window the asks the user if they want to replace the 
+movie in the DB. 
+
+This currently will not get called because the alreadyExist() method in
+addmovie_db_util is set already returns False. But if not, then a pop up
+window will pop up. If the user selects yes to replace, it then calls
+insert2DB() with the selected movie. If not, it just closes and returns
+to the AddMovieGUI.
+
+"""
+
 
 import tkinter
 from addmovie_gui_util import center, clearApp
@@ -15,14 +26,14 @@ class ReplaceMoviePopUp:
         # insert new entry in database
         insert2DB(self.moviePopUpGUI.movieDict)
         self.top.destroy()
-        return("break")
+        return"break"
 
     def replaceMovNo(self, event):
         """ User selects No to replace movie. Just close window
 
         """
         self.top.destroy()
-        return("break")
+        return "break"
 
     def __init__(self, moviePopUpGUI, master):
         """ Initialize GUI to replace movie already in DB.
@@ -70,4 +81,4 @@ class ReplaceMoviePopUp:
 
         """
         event.widget.tk_focusNext().focus()
-        return("break")
+        return "break"

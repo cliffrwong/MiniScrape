@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *
+""" Helper methods for the GUI
+
+Contains method to center the application window, clear/restart the
+application, and reset the image in imgPanel to the default image.
+
+"""
+
 
 from PIL import Image, ImageTk
 import tkinter

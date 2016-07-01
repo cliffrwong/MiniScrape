@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *
+""" Helper methods for database access.
+
+The database code has been commented out but you can change this for your
+database setup.
+
+"""
+
 
 # import MySQLdb
 # from makedb.globalz import cursor
@@ -19,10 +26,10 @@ def alreadyExist(movieDict):
         returned value tells whether movieDict already exists in db
     """
     return False
-    """ Uncomment below to check if this movie is already in database """
-    cursor.execute('SELECT movID, pbmovname, hashX FROM'
-                   'subtitleserver_movies WHERE imdbID = %(imdbID)s',
-                   movieDict)
+    # Uncomment below to check if this movie is already in database
+    # cursor.execute('SELECT movID, pbmovname, hashX FROM'
+                   # 'subtitleserver_movies WHERE imdbID = %(imdbID)s',
+                   # movieDict)
     # row = cursor.fetchone()
     # if row is not None:
     #   movieDict['movID_old'] = row[0]

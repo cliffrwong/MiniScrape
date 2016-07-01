@@ -23,7 +23,7 @@ This mini-scraper can be extended in various ways:
 
 
 ##How to Run
-requires python 3
+requires python 3. Tested on python 3.4+
 
 Install tkinter (if not installed already)
 
