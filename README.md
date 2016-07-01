@@ -39,6 +39,6 @@ git clone https://github.com/cliffrwong/MiniScrape.git
 
 cd MiniScrape
 
-python3 main.py
+python main.py
 
 
