@@ -2,6 +2,7 @@ import tkinter
 from addmovie_gui_util import center, clearApp
 from addmovie_util import insert2DB
 
+
 class ReplaceMoviePopUp:
 
     def replaceMovYes(self, event):
@@ -21,8 +22,8 @@ class ReplaceMoviePopUp:
         return("break")
 
     def __init__(self, moviePopUpGUI, master):
-        """ Initialize GUI to replace movie already in DB. 
-            
+        """ Initialize GUI to replace movie already in DB.
+
             Parameters
             ----------
             moviePopUpGUI : parent GUI class
@@ -41,23 +42,23 @@ class ReplaceMoviePopUp:
             .format(moviePopUpGUI.movieDict['title'])
         self.label1 = Label(self.top, text=warningText, height=0, width=50)
         self.label1.pack()
-        
+
         # Yes Button
         self.yesButton = tkinter.Button(self.top, text="YES", width=20)
         self.yesButton.bind("<Return>", self.replaceMovYes)
-        self.yesButton.pack(side='top',padx=0,pady=0)
+        self.yesButton.pack(side='top', padx=0, pady=0)
         self.searchTextBox.bind("<Down>", self.focus_next_window)
         self.yesButton.focus_set()
-        
+
         # No Button
         self.noButton = Button(self.top, text="NO", width=20)
         self.noButton.bind("<Return>", self.quit)
         self.searchTextBox.bind("<Up>", self.focus_next_window)
-        self.noButton.pack(side='bottom',padx=0,pady=0)
+        self.noButton.pack(side='bottom', padx=0, pady=0)
 
         # Center message box on screen
         center(self.top)
-        
+
     def quit(self, event):
         self.top.destroy()
 

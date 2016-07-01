@@ -1,11 +1,12 @@
-from PIL import Image, ImageTk   
+from PIL import Image, ImageTk
 import tkinter
 
 from addmovie_util import insert2DB
 
+
 def center(master):
     """ Center the window in the middle of the screen
-    
+
     Parameters
     ----------
     master : the root Tk instance
@@ -19,17 +20,19 @@ def center(master):
     y = h/2 - size[1]/2
     master.geometry("%dx%d+%d+%d" % (size + (x, y)))
 
+
 def clearApp(addMovGUI):
     """ Clear movieListBox and movie poster image. Change focus to search textbox
-    
+
     Parameters
     ----------
     addMovieGUI : the instance of AddMovieGUI
 
     """
-    addMovGUI.movieListBox.delete(0,tkinter.END)
+    addMovGUI.movieListBox.delete(0, tkinter.END)
     addMovGUI.searchTextBox.focus_set()
     clearImg(addMovGUI)
+
 
 def clearImg(addMovGUI):
     """ Set the image as the default image.
