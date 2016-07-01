@@ -4,7 +4,7 @@
 from PIL import Image, ImageTk
 import tkinter
 
-from addmovie_util import insert2DB
+from addmovie_db_util import insert2DB
 
 
 def center(master):

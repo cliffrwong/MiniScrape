@@ -6,6 +6,7 @@ from tkinter import Tk
 
 from addmovie_gui import AddMovieGUI
 
+
 class ThreadedClient:
     """ Launch the main part of the GUI and the worker thread.
 

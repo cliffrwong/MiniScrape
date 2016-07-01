@@ -9,8 +9,8 @@ from tkinter import Text, Listbox, Label, Entry, NORMAL, END, DISABLED, \
     SEL, INSERT, DISABLED
 from PIL import Image, ImageTk
 
-from addmovie_util import alreadyExist, imdbBingSearch, bsIMDB, insert2DB, \
-    getContent
+from addmovie_web_util import imdbBingSearch, bsIMDB, getContent
+from addmovie_db_util import insert2DB, alreadyExist
 from addmovie_gui_util import center, clearApp, clearImg
 from replacepopup import ReplaceMoviePopUp
 

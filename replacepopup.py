@@ -3,7 +3,7 @@
 
 import tkinter
 from addmovie_gui_util import center, clearApp
-from addmovie_util import insert2DB
+from addmovie_db_util import insert2DB
 
 
 class ReplaceMoviePopUp:
