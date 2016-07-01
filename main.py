@@ -4,7 +4,7 @@
 
 Start the root Tk instance. Give it to the main worker thread which
 periodically checks the queue for tasks. The worker thread also creates
-AddMovieGUI, which contains the logic for how handle the queue and
+AddMovieGUI, which contains the logic for how to handle the queue and
 process tasks.
 
 """

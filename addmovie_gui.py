@@ -2,7 +2,7 @@
 # -*- coding: utf-8 *
 """ The GUI and main logic for the program
 
-The AddMovieGUI program's init builds the GUI and binds actions on the
+The AddMovieGUI program's init builds the GUI and binds actions of the
 components to different functions also in the AddMovieGUI class. We also
 included lots of keyboard shortcuts to make usage more efficient. 
 
@@ -14,15 +14,17 @@ the Amazon ASIN. It stores the data in the instance variable movieList, then
 pushes the string message "movie searched" to the queue. Messages are popped
 from the queue regularly in the processIncoming method by the worker thread
 created in class ThreadedClient. The worker thread reads the message "movie
-searched" and calls searchPressed2() to update the GUI with the new movies
-in the listbox. 
+searched" and calls searchPressed2() to update the GUI (movieListBox) with
+the new movies stored in the instance variable movieList. 
 
 The movie poster for the selected movie will also be displayed in imgPanel.
 The logic for that is in movieListChanged(). If no image is available,
 clearImg() is called to display the default image in the img subdirectory.
 
-When a movie in the listbox is selected, pressing enter or double clicking on
-the movie will print the selected movie's dictonary info in stdout. 
+When a movie in the movieListBox is selected, pressing enter or double
+clicking on the movie will print the selected movie's dictonary info to stdout. 
+The output behavior can be modified in insert2DB() in addmovie_db_util.py to
+store the movie data in your database, for example.
 
 """
 
