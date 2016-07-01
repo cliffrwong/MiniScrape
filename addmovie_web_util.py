@@ -129,6 +129,7 @@ def fancyIMDBpages(imdbDict, soup):
         titleStr = header.get_text()
         imdbDict['title'] = re.sub('\([^\(\)]+\)', '', titleStr).strip()
     except (AttributeError, TypeError) as e:
+        print("Could not get movie title. Returning. {0}".format(e))
         return None
 
     # Extract the movie's released year
@@ -136,6 +137,8 @@ def fancyIMDBpages(imdbDict, soup):
         imdbDict["year"] = header.find('a').get_text().strip()
     except (AttributeError, TypeError) as e:
         # The year is not available, this is probably a TV show so ignore this.
+        print("Could not get imdb year for {0}, {1}"
+              .format(imdbDict['title'], e))
         imdbDict["year"] = '0000'
 
     # Extract the movie's "type". This is usually the movie's rating.
@@ -145,6 +148,8 @@ def fancyIMDBpages(imdbDict, soup):
         movTyp = infobar.find('meta', {'itemprop': 'contentRating'})['content']
         imdbDict["type"] = movTyp
     except (AttributeError, TypeError) as e:
+        print("Could not get imdb type for {0}, {1}"
+              .format(imdbDict['title'], e))
         imdbDict["type"] = 'NA'
     return imdbDict
 
@@ -183,6 +188,8 @@ def bsIMDB(imdbID):
         titleStr = re.sub('\([^\(\)]+\)', '', titleStr)
         imdbDict['title'] = titleStr.strip()
     except (AttributeError, TypeError) as e:
+        print("Could not get imdb title, {0}"
+              .format(e))
         imdbDict['title'] = ""
 
     # The above extraction may not work for some promotional movies with
@@ -195,6 +202,8 @@ def bsIMDB(imdbID):
         year = result2.find('a').get_text()
         imdbDict["year"] = year.strip()
     except (AttributeError, TypeError) as e:
+        print("Could not get imdb year for {0}, {1}"
+              .format(imdbDict['title'], e))
         imdbDict["year"] = '0000'
 
     # Get the movie type/content rating.
@@ -213,6 +222,8 @@ def bsIMDB(imdbID):
         m = re.search(imageURL_begin + "(.*)" + imageURL_end, imdbImageStr)
         imdbDict["imageURL"] = m.group(1)
     except (AttributeError, TypeError) as e:
+        print("Could not get imdb image for {0}, {1}"
+              .format(imdbDict['title'], e))
         imdbDict["imageURL"] = ""
 
     # Get the amazon ID
@@ -224,6 +235,8 @@ def bsIMDB(imdbID):
         match = amazonIDpat_obj.search(finalAmazonURL)
         imdbDict["amazonID"] = match.group(1).strip() if match else ""
     except (AttributeError, TypeError) as e:
+        print("Could not get Amazon ASIN for {0}, {1}"
+              .format(imdbDict['title'], e))
         imdbDict["amazonID"] = ""
 
     return imdbDict
