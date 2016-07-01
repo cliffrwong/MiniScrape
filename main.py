@@ -6,7 +6,7 @@ from threading import Timer, Thread
 from tkinter import Tk, Text, Listbox, Label, Entry, NORMAL, END, DISABLED, SEL, INSERT, DISABLED
 from PIL import Image, ImageTk
 
-from addmovie_util import alreadyExist, imdbBingSearch, bsIMDB, insert2DB
+from addmovie_util import alreadyExist, imdbBingSearch, bsIMDB, insert2DB, getContent
 from addmovie_gui_util import center, clearApp, clearImg
 from replacepopup import ReplaceMoviePopUp
 
@@ -203,15 +203,21 @@ class AddMovieGUI:
         movieDict = self.movieList[self.curMovie]
         
         # Take image URL and store image in imgData. Then set it in imgPanel
+        gotImage = False
         if 'imageURL' in movieDict and movieDict['imageURL'] != "":
-            with urllib.request.urlopen("http://ia.media-imdb.com/images/M/{0}._V1_"\
-                "SY150_CR3,0,101,150_AL_.jpg".format(movieDict['imageURL'])) as fd:
-                imgData = BytesIO(fd.read())
-            pil_image = Image.open(imgData)
-            img2 = ImageTk.PhotoImage(image=pil_image)
-            self.imgPanel.config(image=img2)
-            self.imgPanel.image = img2
-        else:
+            url = "http://ia.media-imdb.com/images/M/{0}._V1_"\
+                "SY150_CR3,0,101,150_AL_.jpg".format(movieDict['imageURL'])
+            resp = getContent(url)
+            if resp:
+                imgData = BytesIO(resp.read())
+                pil_image = Image.open(imgData)
+                img2 = ImageTk.PhotoImage(image=pil_image)
+                self.imgPanel.config(image=img2)
+                self.imgPanel.image = img2
+                gotImage = True
+
+        # If we couldn't load movie image, set default image instead
+        if not gotImage:
             clearImg(self)
         return("break")
 

@@ -37,10 +37,35 @@ def imdbBingSearch(query):
     urltitle = urllib.parse.quote("site:\"imdb.com/title\" {0}".format(query))
     url = 'http://www.bing.com/search?q={query}&go=Submit&qs=n&form=QBRE&count'\
           '={numResults}&pq={query}'.format(query=urltitle, numResults=numResults)
+    resp = getContent(url)
+    if resp:
+        content = resp.read()
+        sitesearch = sitelink_begin + '([0-9]+)/\" h'
+        imdbIDs = re.findall(sitesearch, content.decode())
+        imdbIDs = removeDuplicates(imdbIDs)
+    else:
+        imdbIDs = []
+    return imdbIDs
+
+def getContent(url):
+    """ Takes the url and returns the response from urlopen
+    Creating a separate function avoids checking for exceptions all
+    through the code.
+
+    Parameters
+    ----------
+    url : string
+    
+    Returns
+    -------
+    resp : HTTPResponse object
+
+
+    """
     req = urllib.request.Request(url)
-    req = addhttp_header(req)
+    req.add_header('User-Agent', "'Mozilla/5.0 (Windows NT 6.1; WOW64)")
     try:
-        url = urllib.request.urlopen(req)
+        resp = urllib.request.urlopen(req)
     except urllib.error.URLError as e:
         if hasattr(e, 'reason'):
             print('We failed to reach a server.')
@@ -49,11 +74,7 @@ def imdbBingSearch(query):
             print('The server couldn\'t fulfill the request.')
             print('Error code: ', e.code)
         return None
-    content = url.read()
-    sitesearch = sitelink_begin + '([0-9]+)/\" h'
-    imdbIDs = re.findall(sitesearch, content.decode())
-    imdbIDs = removeDuplicates(imdbIDs)
-    return imdbIDs
+    return resp
 
 def getAmazonURL(link):
     """ The link on IMDB to the movie's corresponding amazon page needs to be 
@@ -71,30 +92,13 @@ def getAmazonURL(link):
         the final url with amazon.com domain name for the movie.
 
     """
-    link = 'http://www.imdb.com' + link
-    
-    req = urllib.request.Request(link)
-    req = addhttp_header(req)
-    try:
-        res = urllib.request.urlopen(req)
-    except urllib.error.URLError as e:
-        if hasattr(e, 'reason'):
-            print('We failed to reach a server.')
-            print('Reason: ', e.reason)
-        elif hasattr(e, 'code'):
-            print('The server couldn\'t fulfill the request.')
-            print('Error code: ', e.code)
+    url = 'http://www.imdb.com' + link
+    resp = getContent(url)
+    if resp:
+        finalurl = resp.geturl()
+        return finalurl
+    else:
         return ""
-    finalurl = res.geturl()
-    return finalurl
-
-def addhttp_header(req):
-    """add HTTP header, specifically user agent, to request. 
-    Typically the selection is randomized.
-
-    """
-    req.add_header('User-Agent', "'Mozilla/5.0 (Windows NT 6.1; WOW64)")
-    return req
 
 
 def fancyIMDBpages(imdbDict, soup):
@@ -158,19 +162,11 @@ def bsIMDB(imdbID):
     imdbDict['imdbID'] = 'tt' + imdbID
     url = 'http://www.imdb.com/title/tt{imdbID}'.format(imdbID=imdbID)
     print(url)
-    req = urllib.request.Request(url)
-    req = addhttp_header(req)
-    try:
-        url = urllib.request.urlopen(req)
-    except urllib.error.URLError as e:
-        if hasattr(e, 'reason'):
-            print('We failed to reach a server.')
-            print('Reason: ', e.reason)
-        elif hasattr(e, 'code'):
-            print('The server couldn\'t fulfill the request.')
-            print('Error code: ', e.code)
+    resp = getContent(url)
+    if resp:
+        content = resp.read()
+    else:
         return None
-    content = url.read()
     # Create beautiful soup object from imdb page's content
     soup = BeautifulSoup(content, "lxml")
 
