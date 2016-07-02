@@ -8,7 +8,7 @@ This python TkInter applicaton allows the user to search a movie title, select t
 
 Type the movie name into the search box in the top, movie results will appear in the listbox below. The selected movie's poster will appear below that to help differentiate movie's with similar names. Hit enter or double click the selected movie name and the movie's information will be printed in stdout. 	
 
-This version only prints out the movie's information into stdout. But you can modify insert2DB() in addmovie_util.py to direct the data where you please, such as saving in your DB. You can also modify the function alreadyExist() in addmovie_util.py to check if the movie is already in your DB.
+This version only prints out the movie's information into stdout. But you can modify insert2DB() in addmovie_db_util.py to direct the data where you please, such as saving in your DB. You can also modify the function alreadyExist() in addmovie_db_util.py to check if the movie is already in your DB.
 
 ### Screenshot
 ![alt tag](https://raw.githubusercontent.com/cliffrwong/MiniScrape/master/img/screenshot.png)
