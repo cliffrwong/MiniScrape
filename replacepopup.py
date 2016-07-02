@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 *
-""" Class for the popup window the asks the user if they want to replace the 
+""" Class for the popup window that asks the user if they want to replace the 
 movie in the DB. 
 
 This currently will not get called because the alreadyExist() method in
-addmovie_db_util is set already returns False. But if not, then a pop up
-window will pop up. If the user selects yes to replace, it then calls
-insert2DB() with the selected movie. If not, it just closes and returns
+addmovie_db_util is always set to return False. But if not, then a pop up
+window will appear. If the user selects Yes to replace, it then calls
+insert2DB() with the selected movie. If No, it just closes and returns
 to the AddMovieGUI.
 
 """
